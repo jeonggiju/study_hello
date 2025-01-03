@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MemberServiceImpl implements MemberService {
-
     /*
     * DIP(Dependency Inversion Principle)를 준수하는가? x
     * - MemberServiceImpl은 MemberRepository와 MemoryMemberRepository 둘 다 의존한다.

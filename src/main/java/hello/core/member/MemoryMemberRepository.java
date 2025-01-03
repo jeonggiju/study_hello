@@ -5,9 +5,8 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Component // bean 으로 등록될 때는 MemoryMemberRepository 로 등록된다.
 public class MemoryMemberRepository implements MemberRepository {
-
     /*
     * HashMap -> ConcurrentHashMap을 쓰는게 좋음
     * why? 동시성 이슈 때문임
