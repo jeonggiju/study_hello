@@ -1,5 +1,9 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class MemberServiceImpl implements MemberService {
 
     /*
@@ -8,6 +12,11 @@ public class MemberServiceImpl implements MemberService {
     * */
     private final MemberRepository memberRepository;
 
+    /**
+     * Spring 이 자동으로 MemberRepository 에 맞는, 타입에 맞는 Component(여기선 MemoryMemberRepository) 를 주입해준다.
+     * ac.getBean(MemberRepository memberRepository.class) 따위와 같다.
+     * */
+    @Autowired
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
