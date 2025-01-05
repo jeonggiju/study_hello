@@ -1,9 +1,11 @@
 package hello.core.web;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.core.common.MyLogger;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,7 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LogDemoController {
 
     private final LogDemoService logDemoService;
-    private final MyLogger myLogger;
+    // myLogger 가 아닌 myLogger 를 찾을 수 있는 dependency 룩업을 할 수 있는 애가 주입이 된다.
+    private final ObjectProvider<MyLogger> myLoggerObjectProvider;
 
     /**
      * 1. @RequestMapping("log-demo")
@@ -24,14 +27,16 @@ public class LogDemoController {
      * 3. HttpServletRequest request
      * - HTTP 요청에 대한 정보를 담고 있는 객체이다.
      * - 이 객체를 통해 클라이언트 요청의 URL, 헤더, 파라미터 등을 가져올 수 있다.
-     * */
+     * 4. throws 은 예외를 던질 가능성이 있는지 선언한다. thread.sleep() 으로 InterruptedException 가 발생할 수 있음을 시사한다.
+     **/
     @RequestMapping("log-demo")
     @ResponseBody
-    public String logDemo(HttpServletRequest request) {
+    public String logDemo(HttpServletRequest request) throws InterruptedException {
         String requestURL = request.getRequestURI();
+        MyLogger myLogger = myLoggerObjectProvider.getObject(); // 이 시점에 request 의 스코프를 가진 bean 이 생성된다.
         myLogger.setRequestURL(requestURL);
-
         myLogger.log("controller test");
+//        Thread.sleep(5000); // thread 확인을 위한 코드
         logDemoService.logic("testId");
         return "OK";
     }
