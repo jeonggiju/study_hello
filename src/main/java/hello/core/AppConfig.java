@@ -10,6 +10,7 @@ import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * @Configuration 의 역할: 싱글톤을 유지시켜준다.
@@ -42,6 +43,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     @Bean
+    @Primary
     public MemberRepository memberRepository() {
         /**
          * OrderService, MemberService 둘 다 memberRepository()를 호출함으로써 new MemoryMemberRepository()를 호출한다.
